@@ -62,5 +62,10 @@ for ( $i=0; $i<=$#coursera_courses; $i++ )
   $file_name = $coursera_courses[$i] . ".txt";
   open (COURSE_DETAILS, ">$file_name") || die "Can't open new file: $!\n";
   print COURSE_DETAILS @course_details;
+
+  #TODO: Parse the information that is received from Transifex for a given course
+  #      then use this other API call in order to get the details for a "slug":
+  #      curl -s -S -L -k --user '$user:$pwd' -X GET 'https://www.transifex.com/api/2/project/$coursera_courses[$i]/resource/79/stats/es'
+
 }
 print ("--Done!\n\n");
