@@ -3,6 +3,9 @@
 #---------------------------------------
 
 use Getopt::Long;
+use LWP::Simple;
+use JSON;
+use Data::Dumper; 
 use strict;
 use warnings;
 
@@ -25,11 +28,11 @@ Please specify your Transifex username and password along with the confg file.
 my $user        = $options{user};
 my $pwd         = $options{pwd};
 my $config_file = $options{cfg_file};
-my @config_file_info;
-my @coursera_courses;
-my @course_details;
-my $file_name;
-my $i;
+my (@config_file_info, @coursera_courses, @slugs);
+my ($course_details, $file_name, $i, $decoded_course_json, $decoded_resource_json);
+my ($slug_id, $resource_details, $translated_sum, $reviewed_sum, $untranslated_sum);
+my ($reviewed_strings, $translated_strings, $untranslated_strings);
+my ($translated, $reviewed);
 
 # Open the configuration file and read all the information about the courses
 if ( open CONFIG_FILE, "$config_file" )
@@ -45,11 +48,11 @@ close (CONFIG_FILE);
 print ("Parsing configuration file...\n");
 foreach ( @config_file_info )
 {
-  if ( /^(coursera-.*)$/ ) 
+  if ( /^(coursera-.+)$/ ) 
   {
     print ("  --> $1\n");
     push (@coursera_courses, $1);
-  } 
+  }
 }
 print ("--Done!\n\n");
 
@@ -57,15 +60,41 @@ print ("--Done!\n\n");
 print ("Getting course details from Transifex...\n");
 for ( $i=0; $i<=$#coursera_courses; $i++ )
 { 
+  $translated       = 0;
+  $reviewed         = 0;
+  $translated_sum   = 0;
+  $reviewed_sum     = 0;
+  $untranslated_sum = 0;
   print ("  --> $coursera_courses[$i]\n");
-  @course_details = `curl -s -S -L -k --user '$user:$pwd' -X GET 'https://www.transifex.com/api/2/project/$coursera_courses[$i]/?details'`;
-  $file_name = $coursera_courses[$i] . ".txt";
-  open (COURSE_DETAILS, ">$file_name") || die "Can't open new file: $!\n";
-  print COURSE_DETAILS @course_details;
-
-  #TODO: Parse the information that is received from Transifex for a given course
-  #      then use this other API call in order to get the details for a "slug":
-  #      curl -s -S -L -k --user '$user:$pwd' -X GET 'https://www.transifex.com/api/2/project/$coursera_courses[$i]/resource/79/stats/es'
+  $course_details = 
+    `curl -s -S -L -k --user '$user:$pwd' -X GET 'https://www.transifex.com/api/2/project/$coursera_courses[$i]/?details'`;
+  # The lines below have been commented out because the script no longer dumps the 
+  # output of the API call into a text file.
+  #$file_name = $coursera_courses[$i] . ".txt";
+  #open (COURSE_DETAILS, ">$file_name") || die "Can't open new file: $!\n";
+  #print COURSE_DETAILS @course_details;
+  #close COURSE_DETAILS
+  $decoded_course_json = decode_json( $course_details );
+  #print Dumper $decoded_course_json->{'resources'};    # DEBUG only!
+  @slugs = @{ $decoded_course_json->{'resources'} };
+  foreach ( @slugs )
+  {
+    $slug_id        = $_->{'slug'};
+    $resource_details = 
+      `curl -s -S -L -k --user '$user:$pwd' -X GET 'https://www.transifex.com/api/2/project/$coursera_courses[$i]/resource/$slug_id/stats/es'`;
+    $decoded_resource_json = decode_json( $resource_details );
+    #print Dumper $decoded_resource_json;               # DEBUG only!
+    $reviewed_strings       = $decoded_resource_json->{'reviewed'};
+    $translated_strings     = $decoded_resource_json->{'translated_entities'};
+    $untranslated_strings   = $decoded_resource_json->{'untranslated_entities'};
+    $reviewed_sum           = $reviewed_sum + $reviewed_strings;
+    $translated_sum         = $translated_sum + $translated_strings;
+    $untranslated_sum       = $untranslated_sum + $untranslated_strings;
+    print ("    --> slug_id=$slug_id :: translated=$translated_strings :: untranslated=$untranslated_strings :: reviewed=$reviewed_strings\n");
+  }
+  $translated   = int(100*$translated_sum/($translated_sum+$untranslated_sum));
+  $reviewed     = int(100*$reviewed_sum/($translated_sum+$untranslated_sum));
+  print ("    --> Course Total :: translated=$translated :: reviewed=$reviewed\n");
 
 }
 print ("--Done!\n\n");
