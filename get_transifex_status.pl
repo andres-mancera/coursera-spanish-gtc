@@ -66,6 +66,7 @@ $mon        = sprintf("%02d", $mon);
 $year       += 1900; # $year is the number of years since 1900
 $file_name  = "gtc_es_status_report_" . $year . $mon . $mday . ".txt";
 open (REPORT, ">gtc_es_status_report/$file_name") || die "Can't open new report file: $!\n";
+binmode REPORT, ":encoding(UTF-8)";
 print REPORT "Coursera GTC - Spanish Community Report $timestamp\n";
 print REPORT "----------------------------------------------------------------\n\n";
 
