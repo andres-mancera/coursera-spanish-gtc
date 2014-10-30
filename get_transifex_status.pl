@@ -29,11 +29,11 @@ my $user        = $options{user};
 my $pwd         = $options{pwd};
 my $config_file = $options{cfg_file};
 my (@config_file_info, @coursera_courses, @slugs);
-my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst);
+my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst, $timestamp);
 my ($course_details, $file_name, $i, $decoded_course_json, $decoded_resource_json);
 my ($slug_id, $resource_details, $translated_sum, $reviewed_sum, $untranslated_sum);
 my ($reviewed_strings, $translated_strings, $untranslated_strings);
-my ($translated, $reviewed, $course_name);
+my ($translated, $reviewed, $course_name, $course_url);
 
 # Open the configuration file and read all the information about the courses
 if ( open CONFIG_FILE, "$config_file" )
@@ -59,12 +59,15 @@ print ("--Done!\n\n");
 
 # Open the report file and append a timestamp
 ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
-$mday = sprintf("%02d", $mday);
-$mon = $mon + 1;  #$mon is in the range 0..11
-$mon = sprintf("%02d", $mon);
-$year += 1900; # $year is the number of years since 1900
-$file_name   = $year . "-" . $mon . "-" . $mday . "_status_report.txt";
-open (REPORT, ">$file_name") || die "Can't open new report file: $!\n";
+$timestamp  = localtime();
+$mday       = sprintf("%02d", $mday);
+$mon        = $mon + 1;  #$mon is in the range 0..11
+$mon        = sprintf("%02d", $mon);
+$year       += 1900; # $year is the number of years since 1900
+$file_name  = "gtc_es_status_report_" . $year . $mon . $mday . ".txt";
+open (REPORT, ">gtc_es_status_report/$file_name") || die "Can't open new report file: $!\n";
+print REPORT "Coursera GTC - Spanish Community Report $timestamp\n";
+print REPORT "----------------------------------------------------------------\n\n";
 
 # Use Transifex's API to get information about the courses specified in the config file
 print ("Getting course details from Transifex...\n");
@@ -100,12 +103,15 @@ for ( $i=0; $i<=$#coursera_courses; $i++ )
   $reviewed     = int(100*$reviewed_sum/($translated_sum+$untranslated_sum));
   print ("    --> Course Total :: translated=$translated :: reviewed=$reviewed\n");
   $course_name  = $decoded_course_json->{'name'};
+  $course_url   = $decoded_course_json->{'homepage'};
   print REPORT "COURSE NAME : $course_name\n";
-  print REPORT "\tTRANSLATED : $translated%\n";
-  print REPORT "\tREVIEWED   : $reviewed%\n\n";
+  print REPORT "\tHomepage   :  $course_url\n";
+  print REPORT "\tTranslated :  $translated%\n";
+  print REPORT "\tReviewed   :  $reviewed%\n\n";
 }
 print ("--Done!\n\n");
 
 print ("Generating status report : $file_name\n");
+print REPORT "----------------------------------------------------------------\n";
 close REPORT;
 print ("--Done!\n\n");
