@@ -4,7 +4,7 @@
 
 use Getopt::Long;
 use LWP::Simple;
-use JSON;
+use JSON qw( decode_json );
 use Data::Dumper; 
 use strict;
 use warnings;
