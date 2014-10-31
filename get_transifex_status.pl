@@ -29,6 +29,7 @@ my $user        = $options{user};
 my $pwd         = $options{pwd};
 my $config_file = $options{cfg_file};
 my (@config_file_info, @coursera_courses, @slugs);
+my ($start_time, $finish_time, $elapsed_time);
 my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst, $timestamp);
 my ($course_details, $file_name, $i, $decoded_course_json, $decoded_resource_json);
 my ($slug_id, $resource_details, $translated_sum, $reviewed_sum, $untranslated_sum);
@@ -36,6 +37,7 @@ my ($reviewed_strings, $translated_strings, $untranslated_strings);
 my ($translated, $reviewed, $course_name, $course_url);
 
 # Open the configuration file and read all the information about the courses
+$start_time = time;
 if ( open CONFIG_FILE, "$config_file" )
 {
   print ("Opening configuration file :: $config_file\n\n");
@@ -67,8 +69,8 @@ $year       += 1900; # $year is the number of years since 1900
 $file_name  = "gtc_es_status_report_" . $year . $mon . $mday . ".txt";
 open (REPORT, ">gtc_es_status_report/$file_name") || die "Can't open new report file: $!\n";
 binmode REPORT, ":encoding(UTF-8)";
-print REPORT "Coursera GTC - Spanish Community Report $timestamp\n";
-print REPORT "----------------------------------------------------------------\n\n";
+print REPORT "Coursera GTC - Spanish Community Report - $timestamp\n";
+print REPORT "------------------------------------------------------------------\n\n";
 
 # Use Transifex's API to get information about the courses specified in the config file
 print ("Getting course details from Transifex...\n");
@@ -98,11 +100,11 @@ for ( $i=0; $i<=$#coursera_courses; $i++ )
     $reviewed_sum           = $reviewed_sum + $reviewed_strings;
     $translated_sum         = $translated_sum + $translated_strings;
     $untranslated_sum       = $untranslated_sum + $untranslated_strings;
-    print ("    --> slug_id=$slug_id :: translated=$translated_strings :: untranslated=$untranslated_strings :: reviewed=$reviewed_strings\n");
+    print ("    --> slug_id=$slug_id :: translated=$translated_strings, untranslated=$untranslated_strings, reviewed=$reviewed_strings\n");
   }
   $translated   = int(100*$translated_sum/($translated_sum+$untranslated_sum));
   $reviewed     = int(100*$reviewed_sum/($translated_sum+$untranslated_sum));
-  print ("    --> Course Total :: translated=$translated :: reviewed=$reviewed\n");
+  print ("    --> Course Total :: translated=$translated, reviewed=$reviewed\n");
   $course_name  = $decoded_course_json->{'name'};
   $course_url   = $decoded_course_json->{'homepage'};
   print REPORT "COURSE NAME : $course_name\n";
@@ -113,6 +115,10 @@ for ( $i=0; $i<=$#coursera_courses; $i++ )
 print ("--Done!\n\n");
 
 print ("Generating status report : $file_name\n");
-print REPORT "----------------------------------------------------------------\n";
+print REPORT "------------------------------------------------------------------\n";
+$finish_time  = time;
+$elapsed_time = ($finish_time-$start_time)/60;
+$elapsed_time = sprintf("%.2f", $elapsed_time);
+print REPORT "Time required to generate this Report = $elapsed_time minutes\n";
 close REPORT;
 print ("--Done!\n\n");
