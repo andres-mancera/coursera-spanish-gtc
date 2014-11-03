@@ -13,7 +13,8 @@ my %options;
 GetOptions(
             'user=s'    => \$options{user},
             'pwd=s'     => \$options{pwd},
-            'cfg=s'     => \$options{cfg_file}
+            'cfg=s'     => \$options{cfg_file},
+            'email=s'   => \$options{email_addr}
 );
 
 if ( !defined $options{user} || !defined $options{pwd} ||  !defined $options{cfg_file} )
@@ -28,7 +29,8 @@ Please specify your Transifex username and password along with the confg file.
 my $user        = $options{user};
 my $pwd         = $options{pwd};
 my $config_file = $options{cfg_file};
-my (@config_file_info, @coursera_courses, @slugs);
+my $email_addr  = $options{email_addr};
+my (@config_file_info, @coursera_courses, @slugs, @report);
 my ($start_time, $finish_time, $elapsed_time);
 my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst, $timestamp);
 my ($course_details, $file_name, $i, $decoded_course_json, $decoded_resource_json);
@@ -69,8 +71,8 @@ $year       += 1900; # $year is the number of years since 1900
 $file_name  = "gtc_es_status_report_" . $year . $mon . $mday . ".txt";
 open (REPORT, ">gtc_es_status_report/$file_name") || die "Can't open new report file: $!\n";
 binmode REPORT, ":encoding(UTF-8)";
-print REPORT "Coursera GTC - Spanish Community Report - $timestamp\n";
-print REPORT "------------------------------------------------------------------\n\n";
+push (@report, " Coursera GTC - Spanish Community Report - $timestamp\n");
+push (@report, "------------------------------------------------------------------\n\n");
 
 # Use Transifex's API to get information about the courses specified in the config file
 print ("Getting course details from Transifex...\n");
@@ -107,18 +109,34 @@ for ( $i=0; $i<=$#coursera_courses; $i++ )
   print ("    --> Course Total :: translated=$translated, reviewed=$reviewed\n");
   $course_name  = $decoded_course_json->{'name'};
   $course_url   = $decoded_course_json->{'homepage'};
-  print REPORT "COURSE NAME : $course_name\n";
-  print REPORT "\tHomepage   :  $course_url\n";
-  print REPORT "\tTranslated :  $translated%\n";
-  print REPORT "\tReviewed   :  $reviewed%\n\n";
+  push (@report, "COURSE NAME : $course_name\n");
+  push (@report, "\tHomepage   :  $course_url\n");
+  push (@report, "\tTranslated :  $translated%\n");
+  push (@report, "\tReviewed   :  $reviewed%\n\n");
 }
 print ("--Done!\n\n");
 
 print ("Generating status report : $file_name\n");
-print REPORT "------------------------------------------------------------------\n";
+push (@report, "------------------------------------------------------------------\n");
 $finish_time  = time;
 $elapsed_time = ($finish_time-$start_time)/60;
 $elapsed_time = sprintf("%.2f", $elapsed_time);
-print REPORT "Time required to generate this Report = $elapsed_time minutes\n";
+push (@report, "Time required to generate this Report = $elapsed_time minutes\n");
+print REPORT "@report";
 close REPORT;
 print ("--Done!\n\n");
+
+# Send email if an address has been provided in the command line
+if ( defined($options{email_addr}) )
+{
+  print ("Sending email to : $email_addr\n");
+  open (EMAIL,"|/usr/sbin/sendmail -t");
+  binmode EMAIL, ":encoding(UTF-8)";
+  print EMAIL "From: spanish_gtc_report_noreply\@coursera.org\n";
+  print(EMAIL "To: $email_addr\n");
+  print(EMAIL "Subject: $file_name\n");
+  print(EMAIL "\n");
+  print(EMAIL "@report\n");
+  close(EMAIL);
+  print ("--Done!\n\n");
+}
