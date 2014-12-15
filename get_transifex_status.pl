@@ -1,4 +1,4 @@
-#!/volume/perl/bin/perl
+#!/usr/bin/perl
 # Author : andres-mancera (October 2014)
 #---------------------------------------
 
