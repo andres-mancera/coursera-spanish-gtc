@@ -1,0 +1,180 @@
+ Coursera GTC - Spanish Community Report - Fri Jan 30 07:49:37 2015
+ ------------------------------------------------------------------
+
+ COURSE NAME : Introduction to Philosophy
+ 	Homepage   :  https://www.coursera.org/course/introphil
+ 	Translated :  73%
+ 	Reviewed   :  6%
+
+ COURSE NAME : Competitive Strategy
+ 	Homepage   :  https://www.coursera.org/course/flex-compstrategy
+ 	Translated :  72%
+ 	Reviewed   :  49%
+
+ COURSE NAME : Foundations of Teaching for Learning 2: Being a Teacher
+ 	Homepage   :  https://www.coursera.org/course/teach2
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : Reproducible Research
+ 	Homepage   :  https://www.coursera.org/course/repdata
+ 	Translated :  100%
+ 	Reviewed   :  60%
+
+ COURSE NAME : An Introduction to Interactive Programming in Python
+ 	Homepage   :  https://www.coursera.org/course/interactivepython
+ 	Translated :  99%
+ 	Reviewed   :  4%
+
+ COURSE NAME : Modern & Contemporary American Poetry
+ 	Homepage   :  https://www.coursera.org/course/modernpoetry
+ 	Translated :  60%
+ 	Reviewed   :  53%
+
+ COURSE NAME : Gamification
+ 	Homepage   :  https://www.coursera.org/course/gamification
+ 	Translated :  100%
+ 	Reviewed   :  0%
+
+ COURSE NAME : Introduction to Public Speaking
+ 	Homepage   :  https://www.coursera.org/course/publicspeak
+ 	Translated :  88%
+ 	Reviewed   :  11%
+
+ COURSE NAME : Songwriting
+ 	Homepage   :  https://www.coursera.org/course/songwriting
+ 	Translated :  90%
+ 	Reviewed   :  71%
+
+ COURSE NAME : Computer Science 101
+ 	Homepage   :  https://www.coursera.org/course/cs101
+ 	Translated :  100%
+ 	Reviewed   :  22%
+
+ COURSE NAME : Introductory Human Physiology
+ 	Homepage   :  https://www.coursera.org/course/humanphysio
+ 	Translated :  100%
+ 	Reviewed   :  34%
+
+ COURSE NAME : Understanding Research Methods
+ 	Homepage   :  https://www.coursera.org/course/researchmethods
+ 	Translated :  100%
+ 	Reviewed   :  41%
+
+ COURSE NAME : Foundations of Teaching for Learning 1: Introduction
+ 	Homepage   :  https://www.coursera.org/course/teach1
+ 	Translated :  100%
+ 	Reviewed   :  11%
+
+ COURSE NAME : Model Thinking
+ 	Homepage   :  https://www.coursera.org/course/modelthinking
+ 	Translated :  99%
+ 	Reviewed   :  97%
+
+ COURSE NAME : An Introduction to Global Health
+ 	Homepage   :  https://www.coursera.org/course/globalhealthintro
+ 	Translated :  100%
+ 	Reviewed   :  99%
+
+ COURSE NAME : An Introduction to Marketing
+ 	Homepage   :  https://www.coursera.org/course/marketing
+ 	Translated :  100%
+ 	Reviewed   :  91%
+
+ COURSE NAME : Social Psychology
+ 	Homepage   :  https://www.coursera.org/course/socialpsychology
+ 	Translated :  97%
+ 	Reviewed   :  91%
+
+ COURSE NAME : Programming Mobile Applications for Android Handheld Systems
+ 	Homepage   :  https://www.coursera.org/course/android
+ 	Translated :  99%
+ 	Reviewed   :  49%
+
+ COURSE NAME : Think Again: How to Reason and Argue
+ 	Homepage   :  https://www.coursera.org/course/thinkagain
+ 	Translated :  100%
+ 	Reviewed   :  9%
+
+ COURSE NAME : Learning How to Learn: Powerful mental tools to help you master tough subjects
+ 	Homepage   :  https://www.coursera.org/course/learning
+ 	Translated :  95%
+ 	Reviewed   :  93%
+
+ COURSE NAME : R Programming
+ 	Homepage   :  https://www.coursera.org/course/rprog
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : An Introduction to Operations Management
+ 	Homepage   :  https://www.coursera.org/course/operations
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : Critical Thinking in Global Challenges
+ 	Homepage   :  https://www.coursera.org/course/criticalthinking
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : The Dynamic Earth: A Course for Educators
+ 	Homepage   :  https://www.coursera.org/course/amnhearth
+ 	Translated :  99%
+ 	Reviewed   :  99%
+
+ COURSE NAME : The Power of Macroeconomics: Economic Principles in the Real World
+ 	Homepage   :  https://www.coursera.org/course/ucimacroeconomics
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : A Brief History of Humankind
+ 	Homepage   :  https://www.coursera.org/course/humankind
+ 	Translated :  99%
+ 	Reviewed   :  98%
+
+ COURSE NAME : Human-Computer Interaction
+ 	Homepage   :  https://www.coursera.org/course/hciucsd
+ 	Translated :  100%
+ 	Reviewed   :  89%
+
+ COURSE NAME : Animal Behaviour
+ 	Homepage   :  https://www.coursera.org/course/animalbehav
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : What a Plant Knows (and other things you didn’t know about plants)
+ 	Homepage   :  https://www.coursera.org/course/plantknows
+ 	Translated :  97%
+ 	Reviewed   :  94%
+
+ COURSE NAME : Foundations of Business Strategy
+ 	Homepage   :  https://www.coursera.org/course/strategy101
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : Introduction to Guitar
+ 	Homepage   :  https://www.coursera.org/course/guitar
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : Microeconomics Principles
+ 	Homepage   :  https://www.coursera.org/course/microecon
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : Introduction to Finance
+ 	Homepage   :  https://www.coursera.org/course/introfinance
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : The Emergence of the Modern Middle East
+ 	Homepage   :  https://www.coursera.org/course/modernmiddleeast
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ COURSE NAME : Flex Child Nutrition and Cooking 2.0
+ 	Homepage   :  https://www.coursera.org/course/flex-childnutrition
+ 	Translated :  100%
+ 	Reviewed   :  100%
+
+ ------------------------------------------------------------------
+ Time required to generate this Report = 261.62 minutes
