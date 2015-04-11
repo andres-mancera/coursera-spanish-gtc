@@ -71,6 +71,8 @@ $year       += 1900; # $year is the number of years since 1900
 $file_name  = "gtc_es_status_report_" . $year . $mon . $mday . ".txt";
 open (REPORT, ">gtc_es_status_report/$file_name") || die "Can't open new report file: $!\n";
 binmode REPORT, ":encoding(UTF-8)";
+print REPORT   " Coursera GTC - Spanish Community Report - $timestamp\n";
+print REPORT   "------------------------------------------------------------------\n\n";
 push (@report, " Coursera GTC - Spanish Community Report - $timestamp\n");
 push (@report, "------------------------------------------------------------------\n\n");
 
@@ -109,6 +111,10 @@ for ( $i=0; $i<=$#coursera_courses; $i++ )
   print ("    --> Course Total :: translated=$translated, reviewed=$reviewed\n");
   $course_name  = $decoded_course_json->{'name'};
   $course_url   = $decoded_course_json->{'homepage'};
+  print REPORT "COURSE NAME : $course_name\n";
+  print REPORT "\tHomepage   :  $course_url\n";
+  print REPORT "\tTranslated :  $translated%\n";
+  print REPORT "\tReviewed   :  $reviewed%\n\n";
   push (@report, "COURSE NAME : $course_name\n");
   push (@report, "\tHomepage   :  $course_url\n");
   push (@report, "\tTranslated :  $translated%\n");
@@ -117,12 +123,13 @@ for ( $i=0; $i<=$#coursera_courses; $i++ )
 print ("--Done!\n\n");
 
 print ("Generating status report : $file_name\n");
+print REPORT   "------------------------------------------------------------------\n";
 push (@report, "------------------------------------------------------------------\n");
 $finish_time  = time;
 $elapsed_time = ($finish_time-$start_time)/60;
 $elapsed_time = sprintf("%.2f", $elapsed_time);
+print REPORT   "Time required to generate this Report = $elapsed_time minutes\n";
 push (@report, "Time required to generate this Report = $elapsed_time minutes\n");
-print REPORT "@report";
 close REPORT;
 print ("--Done!\n\n");
 
