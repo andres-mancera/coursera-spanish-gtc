@@ -37,6 +37,7 @@ my ($course_details, $file_name, $i, $decoded_course_json, $decoded_resource_jso
 my ($slug_id, $resource_details, $translated_sum, $reviewed_sum, $untranslated_sum);
 my ($reviewed_strings, $translated_strings, $untranslated_strings);
 my ($translated, $reviewed, $course_name, $course_url);
+my ($exit_status);
 
 # Open the configuration file and read all the information about the courses
 $start_time = time;
@@ -86,16 +87,32 @@ for ( $i=0; $i<=$#coursera_courses; $i++ )
   $reviewed_sum     = 0;
   $untranslated_sum = 0;
   print ("  --> $coursera_courses[$i]\n");
-  $course_details = 
-    `curl -s -S -L -k --user '$user:$pwd' -X GET 'https://www.transifex.com/api/2/project/$coursera_courses[$i]/?details'`;
+  $exit_status = 1;
+  while ( $exit_status!=0 ) {
+    $course_details = 
+      `curl -s -S -L -k --user '$user:$pwd' -X GET 'https://www.transifex.com/api/2/project/$coursera_courses[$i]/?details'`;
+    $exit_status = $?;
+    if (  $exit_status!=0 ) {
+      print ("  -->  Exit status $exit_status while executing curl for api/2/project/$coursera_courses[$i] : Retrying...\n");
+      sleep 30;
+    }
+  }
   $decoded_course_json = decode_json( $course_details );
   #print Dumper $decoded_course_json->{'resources'};    # DEBUG only!
   @slugs = @{ $decoded_course_json->{'resources'} };
   foreach ( @slugs )
   {
     $slug_id        = $_->{'slug'};
-    $resource_details = 
-      `curl -s -S -L -k --user '$user:$pwd' -X GET 'https://www.transifex.com/api/2/project/$coursera_courses[$i]/resource/$slug_id/stats/es'`;
+    $exit_status = 1;
+    while ( $exit_status!=0 ) {
+      $resource_details = 
+        `curl -s -S -L -k --user '$user:$pwd' -X GET 'https://www.transifex.com/api/2/project/$coursera_courses[$i]/resource/$slug_id/stats/es'`;
+      $exit_status = $?;
+      if (  $exit_status!=0 ) {
+        print ("  -->  Exit status $exit_status while executing curl for api/2/project/$coursera_courses[$i]/resource/$slug_id/ : Retrying...\n");
+        sleep 30;
+      }
+    }
     $decoded_resource_json = decode_json( $resource_details );
     #print Dumper $decoded_resource_json;               # DEBUG only!
     $reviewed_strings       = $decoded_resource_json->{'reviewed'};
